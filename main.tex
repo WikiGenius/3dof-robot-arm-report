@@ -1,0 +1,45 @@
+﻿%================== main.tex ==================
+\documentclass[conference]{IEEEtran} % or journal
+\input{metadata}
+\input{preamble}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+We present modeling, control design, and experimental validation for a 3-DOF robotic arm.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Robotic manipulators, nonlinear control, 3-DOF arm, trajectory tracking, modeling.
+\end{IEEEkeywords}
+
+\section{Introduction}\label{sec:intro}
+\input{sections/01_introduction}
+
+\section{Related Work}\label{sec:related}
+\input{sections/02_related_work}
+
+\section{Kinematics of the 3-DOF Arm}\label{sec:kin}
+\input{sections/03_kinematics}
+
+\section{Dynamics}\label{sec:dynamics}
+\input{sections/04_dynamics}
+
+\section{Control Design}\label{sec:control}
+\input{sections/05_control_design}
+
+\section{Simulation Setup and Scenarios}\label{sec:sim}
+\input{sections/06_simulation}
+
+\section{Experiments}\label{sec:exp}
+\input{sections/07_experiments}
+
+\section{Results and Discussion}\label{sec:results}
+\input{sections/08_results_discussion}
+
+\section{Conclusion and Future Work}\label{sec:conclusion}
+\input{sections/09_conclusion_future}
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+\end{document}

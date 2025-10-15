@@ -1,0 +1,16 @@
+﻿\begin{table}[h]
+  \centering
+  \caption{Denavit--Hartenberg parameters of the 3-DOF arm}
+  \label{tab:dh}
+  \begin{tabular}{@{}lcccc@{}}\toprule
+  Link & \(a_i\) & \(\alpha_i\) & \(d_i\) & \(\theta_i\) \\ \midrule
+  1 & L\(_1\) & 0 & 0 & \(\theta_1\) \\
+  2 & L\(_2\) & 0 & 0 & \(\theta_2\) \\
+  3 & L\(_3\) & 0 & 0 & \(\theta_3\) \\ \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{align}
+  \vect{x} &= f(\theta_1,\theta_2,\theta_3), \\
+  J(\vect{\theta}) &= \frac{\partial f}{\partial \vect{\theta}} \in \R^{3\times 3}.
+\end{align}
