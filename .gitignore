@@ -1,0 +1,24 @@
+﻿# ================== LaTeX ignore ==================
+*.aux
+*.bbl
+*.blg
+*.brf
+*.log
+*.toc
+*.out
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+*.run.xml
+*.bcf
+*.lof
+*.lot
+# Usually ignore PDFs in source repos; CI or Overleaf can build them
+*.pdf
+
+# backup/editor files
+*~
+*.bak
+*.tmp
+.DS_Store
+Thumbs.db
