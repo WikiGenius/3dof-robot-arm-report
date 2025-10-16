@@ -1,16 +1,44 @@
-﻿\begin{table}[h]
+﻿%================== sections/03_kinematics.tex ==================
+\section{Kinematics of the 3-DOF Arm}\label{sec:kin}
+% \owner{Muhammed Elyamani} \todo{Verify DH parameters with CAD model.}
+
+This section establishes the forward kinematics for the three-degree-of-freedom (3-DOF) robotic arm. 
+Using the Denavit--Hartenberg (DH) convention, each link is parameterized by four standard parameters: 
+link length $a_i$, link twist $\alpha_i$, link offset $d_i$, and joint angle $\theta_i$.
+
+\begin{table}[h]
   \centering
-  \caption{Denavit--Hartenberg parameters of the 3-DOF arm}
+  \caption{Denavit--Hartenberg parameters of the 3-DOF manipulator (to be verified).}
   \label{tab:dh}
-  \begin{tabular}{@{}lcccc@{}}\toprule
-  Link & \(a_i\) & \(\alpha_i\) & \(d_i\) & \(\theta_i\) \\ \midrule
-  1 & L\(_1\) & 0 & 0 & \(\theta_1\) \\
-  2 & L\(_2\) & 0 & 0 & \(\theta_2\) \\
-  3 & L\(_3\) & 0 & 0 & \(\theta_3\) \\ \bottomrule
+  \begin{tabular}{@{}ccccc@{}}
+    \toprule
+    \textbf{Link} & $a_i$ & $\alpha_i$ & $d_i$ & $\theta_i$ \\
+    \midrule
+    1 & $L_1$ & $0$ & $0$ & $\theta_1$ \\
+    2 & $L_2$ & $0$ & $0$ & $\theta_2$ \\
+    3 & $L_3$ & $0$ & $0$ & $\theta_3$ \\
+    \bottomrule
   \end{tabular}
 \end{table}
 
-\begin{align}
-  \vect{x} &= f(\theta_1,\theta_2,\theta_3), \\
-  J(\vect{\theta}) &= \frac{\partial f}{\partial \vect{\theta}} \in \R^{3\times 3}.
-\end{align}
+\noindent
+The forward kinematics is expressed as the mapping from joint space to end-effector space:
+\begin{equation}
+  \vect{x} = f(\vect{\theta}) =
+  \begin{bmatrix}
+  x(\vect{\theta}) \\[2pt] y(\vect{\theta}) \\[2pt] z(\vect{\theta})
+  \end{bmatrix},
+\end{equation}
+where $\vect{\theta} = [\theta_1, \theta_2, \theta_3]^{\T}$ represents the joint angles.
+
+\begin{tcolorbox}[title=Kinematic Relations, colback=white!98!gray]
+\begin{align*}
+  \text{Forward Kinematics:} \quad & \vect{x} = f(\vect{\theta}), \\[4pt]
+  \text{Jacobian Matrix:} \quad & J(\vect{\theta}) = 
+  \frac{\partial f(\vect{\theta})}{\partial \vect{\theta}}.
+\end{align*}
+\end{tcolorbox}
+
+The Jacobian $J(\vect{\theta})$ relates joint velocities to end-effector velocities as
+$\dot{\vect{x}} = J(\vect{\theta})\,\dot{\vect{\theta}}$, and is fundamental for differential motion,
+control, and singularity analysis.

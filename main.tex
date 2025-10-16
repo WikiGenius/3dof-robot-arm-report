@@ -1,45 +1,63 @@
 ﻿%================== main.tex ==================
-\documentclass[conference]{IEEEtran} % or journal
+\documentclass[12pt,a4paper]{report}
+
 \input{metadata}
 \input{preamble}
 
 \begin{document}
-\maketitle
-\begin{abstract}
-We present modeling, control design, and experimental validation for a 3-DOF robotic arm.
-\end{abstract}
 
-\begin{IEEEkeywords}
-Robotic manipulators, nonlinear control, 3-DOF arm, trajectory tracking, modeling.
-\end{IEEEkeywords}
+% --- Cover ---
+\input{cover}
+\pagenumbering{roman}
 
-\section{Introduction}\label{sec:intro}
+% --- Optional front matter ---
+\tableofcontents
+\listoffigures
+\listoftables
+\clearpage
+
+% --- Main content ---
+\pagenumbering{arabic}
+
+% \chapter*{Team Plan}
+% \addcontentsline{toc}{chapter}{Team Plan}
+% \input{sections/00_team_plan}
+
+\chapter{Introduction}
 \input{sections/01_introduction}
 
-\section{Related Work}\label{sec:related}
+\chapter{Related Work}
 \input{sections/02_related_work}
 
-\section{Kinematics of the 3-DOF Arm}\label{sec:kin}
+\chapter{Kinematics}
 \input{sections/03_kinematics}
 
-\section{Dynamics}\label{sec:dynamics}
+\chapter{Dynamics}
 \input{sections/04_dynamics}
 
-\section{Control Design}\label{sec:control}
+\chapter{Control Design}
 \input{sections/05_control_design}
 
-\section{Simulation Setup and Scenarios}\label{sec:sim}
+\chapter{Simulation Studies}
 \input{sections/06_simulation}
 
-\section{Experiments}\label{sec:exp}
+\chapter{Experiments}
 \input{sections/07_experiments}
 
-\section{Results and Discussion}\label{sec:results}
+\chapter{Results and Discussion}
 \input{sections/08_results_discussion}
 
-\section{Conclusion and Future Work}\label{sec:conclusion}
+\chapter{Conclusion and Future Work}
 \input{sections/09_conclusion_future}
 
-\bibliographystyle{IEEEtran}
+% --- References ---
+\clearpage
+\bibliographystyle{plain} % (use plainnat or IEEEtran later if you wish)
 \bibliography{references}
+
+% --- Appendices (optional) ---
+\appendix
+\chapter{MATLAB/Simulink Notes}
+\input{sections/appendix_matlab}
+
 \end{document}

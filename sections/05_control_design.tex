@@ -1,5 +1,55 @@
-﻿\subsection{Computed Torque}
+﻿%================== sections/05_control_design.tex ==================
+\section{Control Design}\label{sec:control}
+% \owner{Osama Nagee} \todo{Justify control gains and provide Lyapunov or linear stability verification.}
+
+This section presents two control approaches for the 3-DOF manipulator:
+(i) Computed Torque Control (CTC) and (ii) Linear Quadratic Regulator (LQR) around a nominal trajectory.
+
+\subsection{Computed Torque Control (CTC)}
+The computed torque controller uses feedback linearization based on the dynamic model
+\eqref{eq:dynamics}. The control law is formulated as
 \begin{align}
-  \vect{\tau} &= M(\vect{q})\,\vect{v} + C(\vect{q},\dot{\vect{q}})\,\dot{\vect{q}} + g(\vect{q}),\\
-  \vect{v} &= \ddot{\vect{q}}_d + K_d(\dot{\vect{q}}_d-\dot{\vect{q}}) + K_p(\vect{q}_d-\vect{q}).
+  \vect{\tau} &= M(\vect{q})\,\vect{v} + C(\vect{q},\dot{\vect{q}})\,\dot{\vect{q}} + g(\vect{q}), \\
+  \vect{v} &= \ddot{\vect{q}}_d 
+            + K_d(\dot{\vect{q}}_d - \dot{\vect{q}}) 
+            + K_p(\vect{q}_d - \vect{q}),
 \end{align}
+where $K_p$ and $K_d$ are positive definite gain matrices.
+This yields a closed-loop error dynamics:
+\begin{equation}
+  \ddot{\vect{e}} + K_d\dot{\vect{e}} + K_p\vect{e} = 0,
+\end{equation}
+with $\vect{e} = \vect{q}_d - \vect{q}$. 
+Appropriate $K_p$ and $K_d$ ensure critically damped or underdamped response as desired.
+
+\begin{tcolorbox}[title=Stability Remark, colback=white!98!gray]
+A Lyapunov candidate $V = \tfrac{1}{2}\dot{\vect{e}}^\T M(\vect{q})\dot{\vect{e}} 
++ \tfrac{1}{2}\vect{e}^\T K_p\vect{e}$ ensures $\dot{V} \le 0$, 
+demonstrating global asymptotic stability under ideal modeling.
+\end{tcolorbox}
+
+\subsection{LQR Control about a Trajectory}
+Linearization of the nonlinear dynamics $\dot{\vect{x}} = \vect{f}(\vect{x}, \vect{u})$
+about a nominal trajectory $(\vect{x}_d, \vect{u}_d)$ gives
+\begin{equation}
+  \delta\dot{\vect{x}} = A\,\delta\vect{x} + B\,\delta\vect{u},
+\end{equation}
+where $A = \tfrac{\partial f}{\partial \vect{x}}$, $B = \tfrac{\partial f}{\partial \vect{u}}$.
+The optimal feedback minimizing the quadratic cost
+\[
+  J = \int_0^\infty \left(\delta\vect{x}^\T Q \delta\vect{x} 
+  + \delta\vect{u}^\T R \delta\vect{u}\right) dt
+\]
+is given by
+\begin{align}
+  &A^\T P + P A - P B R^{-1} B^\T P + Q = 0, \\
+  &K = R^{-1} B^\T P, \quad 
+  \delta\vect{u} = -K\,\delta\vect{x},
+\end{align}
+where $P$ solves the Continuous Algebraic Riccati Equation (CARE).
+
+\begin{tcolorbox}[title=LQR Design Summary, colback=white!98!gray]
+Tune $Q$ to penalize state deviation and $R$ to penalize control effort. 
+The resulting gain $K$ ensures local quadratic optimality and stability 
+for small perturbations around the linearized trajectory.
+\end{tcolorbox}

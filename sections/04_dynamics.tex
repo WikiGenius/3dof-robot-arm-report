@@ -1,4 +1,35 @@
-﻿\begin{align}
-  M(\vect{q})\ddot{\vect{q}} + C(\vect{q},\dot{\vect{q}})\dot{\vect{q}} + g(\vect{q})
-  + F\,\sgn(\dot{\vect{q}}) + D\,\dot{\vect{q}} = \vect{\tau}.
+﻿%================== sections/04_dynamics.tex ==================
+\section{Dynamics of the 3-DOF Arm}\label{sec:dynamics}
+% \owner{Muhammed Elyamani} \todo{Derive $M(\vect{q})$, $C(\vect{q},\dot{\vect{q}})$, and $g(\vect{q})$; verify symmetry and positive definiteness of $M(\vect{q})$.}
+
+The dynamic model of the robotic arm can be derived using the Euler--Lagrange formulation. 
+Let $\vect{q} \in \mathbb{R}^3$ denote the joint coordinates and $\vect{\tau} \in \mathbb{R}^3$ the actuator torques. 
+The general form of the manipulator dynamics is
+\begin{equation}
+  M(\vect{q})\,\ddot{\vect{q}} + C(\vect{q},\dot{\vect{q}})\,\dot{\vect{q}} + g(\vect{q}) = \vect{\tau},
+  \label{eq:dynamics}
+\end{equation}
+where:
+\begin{itemize}[leftmargin=2em]
+  \item $M(\vect{q}) \in \mathbb{R}^{3\times3}$ is the symmetric, positive definite \textit{inertia matrix}.
+  \item $C(\vect{q},\dot{\vect{q}})\,\dot{\vect{q}}$ represents Coriolis and centrifugal effects.
+  \item $g(\vect{q})$ is the gravitational torque vector.
+\end{itemize}
+
+The kinetic and potential energies are expressed as
+\begin{align}
+  T(\vect{q},\dot{\vect{q}}) &= \tfrac{1}{2}\,\dot{\vect{q}}^{\T} M(\vect{q}) \dot{\vect{q}}, \\[3pt]
+  V(\vect{q}) &= \text{potential energy due to gravity.}
 \end{align}
+Substituting into the Lagrangian $L = T - V$ and applying
+$\frac{d}{dt}\!\left(\frac{\partial L}{\partial \dot{q}_i}\right) - \frac{\partial L}{\partial q_i} = \tau_i$
+yields \eqref{eq:dynamics}.
+
+\begin{tcolorbox}[title=Dynamic Model Validation, colback=white!98!gray]
+Ensure that:
+\begin{itemize}[noitemsep, topsep=2pt]
+  \item $M(\vect{q})$ is symmetric and positive definite (SPD).
+  \item $\dot{M}(\vect{q}) - 2C(\vect{q},\dot{\vect{q}})$ is skew-symmetric.
+  \item Energy balance holds: $\dot{T} + \dot{V} = \vect{\tau}^\T \dot{\vect{q}}$.
+\end{itemize}
+\end{tcolorbox}

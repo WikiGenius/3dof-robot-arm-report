@@ -1,1 +1,10 @@
 ﻿% scenarios
+\begin{lstlisting}[style=code, caption={MATLAB: simple planar FK}, label={lst:fk}]
+function xy = fk3R(theta, L)
+% theta = [t1 t2 t3], L = [L1 L2 L3]
+t1 = theta(1); t2 = theta(2); t3 = theta(3);
+x = L(1)*cos(t1) + L(2)*cos(t1+t2) + L(3)*cos(t1+t2+t3);
+y = L(1)*sin(t1) + L(2)*sin(t1+t2) + L(3)*sin(t1+t2+t3);
+xy = [x; y];
+end
+\end{lstlisting}

@@ -1,22 +1,171 @@
 ﻿%================== preamble.tex ==================
+% UNIVERSAL, PROJECT-READY PREAMBLE
+% - Optimized for report-class (chapters, margins, ToC)
+% - Safe to switch later to IEEE: set \ieeemodetrue to auto-disable margins, colors, etc.
+
+% ---------- MODE TOGGLES ----------
+\newif\ifieeemode
+\ieeemodefalse             % <- CURRENTLY report mode
+% \ieeemodetrue            % <- uncomment when you switch to IEEEtran
+
+% ---------- ENCODING & FONTS ----------
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage{lmodern}
-\usepackage{amsmath,amssymb,mathtools}
-\usepackage{bm}
-\usepackage{siunitx}
-\sisetup{per-mode=symbol, detect-all=true}
+\usepackage{microtype}
+\usepackage{newtxtext,newtxmath}      % Times-like text & math
+
+% ---------- PATCH: amsthm + newtxmath clash fix ----------
+\makeatletter
+\@ifundefined{openbox}{}{\let\openbox\relax}
+\makeatother
+
+% ---------- PAGE GEOMETRY (report only) ----------
+\ifieeemode\else
+  \usepackage[a4paper,margin=1in]{geometry}
+\fi
+
+% ---------- COLORS & HYPERLINKS ----------
+\usepackage[dvipsnames]{xcolor}
+\makeatletter
+\@ifpackageloaded{hyperref}{}{%
+  \ifieeemode
+    \usepackage[hidelinks]{hyperref}
+  \else
+    \usepackage[
+      colorlinks=true,
+      linkcolor=MidnightBlue,
+      citecolor=ForestGreen,
+      urlcolor=RoyalBlue
+    ]{hyperref}
+  \fi
+}
+\makeatother
+
+% ---------- HEADINGS / TITLES ----------
+\usepackage{titlesec}
+\ifieeemode
+  % IEEE manages its own sectioning; keep defaults.
+\else
+  \titleformat{\chapter}{\LARGE\bfseries\color{MidnightBlue}}{\thechapter}{0.75em}{}
+  \titleformat{\section}{\large\bfseries\color{MidnightBlue}}{\thesection}{0.6em}{}
+  \titleformat{\subsection}{\normalsize\bfseries\color{MidnightBlue}}{\thesubsection}{0.5em}{}
+\fi
+
+% ---------- LISTS ----------
+\usepackage{enumitem}
+\setlist{itemsep=0.2em, topsep=0.2em}
+
+% ---------- FIGURES, TABLES & CAPTIONS ----------
 \usepackage{graphicx}
+\graphicspath{{figures/}}               % default figures folder
 \usepackage{subcaption}
 \usepackage{booktabs}
-\usepackage{multirow}
-\usepackage{adjustbox}
 \usepackage{array}
-\usepackage[ruled,vlined]{algorithm2e}
-\usepackage{hyperref}
-\usepackage[nameinlink,capitalise]{cleveref}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+\usepackage[font=small,labelfont=bf]{caption}
+\captionsetup{justification=centering}
+\usepackage{float}
+\usepackage{wrapfig}
 
+% ---------- MATH CORE ----------
+\usepackage{amsmath,amsthm}             % safe combo with newtxmath
+\usepackage{mathtools}
+\usepackage{bm}                         % \bm for bold greek
+\usepackage{siunitx}
+\sisetup{per-mode=symbol, detect-all}
+
+% ---------- Numbering ----------
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+\numberwithin{table}{section}
+
+% ---------- MATH OPERATORS & SHORTCUTS ----------
+\newcommand{\vect}[1]{\bm{#1}}               % bold vectors (greek-safe)
+\newcommand{\mat}[1]{\mathbf{#1}}            % bold upright matrices
+\newcommand{\T}{\mathsf{T}}                  % transpose
 \newcommand{\R}{\mathbb{R}}
-\newcommand{\T}{\mathsf{T}}
-\newcommand{\vect}[1]{\bm{#1}}
-\DeclareMathOperator{\sgn}{sgn}
+\newcommand{\N}{\mathbb{N}}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+% Lie groups / robotics helpers
+\newcommand{\SO}{\mathrm{SO}(3)}
+\newcommand{\se}{\mathfrak{se}(3)}
+\newcommand{\skewm}[1]{\left\lfloor #1 \right\rfloor_\times} % renamed to avoid clash
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+
+% ---------- THEOREM ENVIRONMENTS ----------
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% ---------- CLEVER REFERENCES ----------
+% Load AFTER hyperref
+\usepackage[nameinlink,capitalise,noabbrev]{cleveref}
+
+% ---------- CODE LISTINGS (MATLAB / Python) ----------
+\usepackage{listings}
+\lstdefinestyle{code}{
+  basicstyle=\ttfamily\small,
+  numbers=left,
+  stepnumber=1,
+  numbersep=8pt,
+  frame=single,
+  breaklines=true,
+  columns=fullflexible,
+  rulecolor=\color{black!25},
+  tabsize=2,
+  upquote=true
+}
+\lstdefinelanguage{MATLAB}{
+  morekeywords={break,case,catch,continue,else,elseif,end,for,function,global,
+  if,otherwise,persistent,return,switch,try,while,parfor,classdef,properties,methods},
+  sensitive=true,
+  morecomment=[l]\%,
+  morestring=[m]',
+}
+\lstdefinelanguage{Python}{
+  morekeywords={def,return,if,elif,else,for,while,break,continue,pass,import,from,as,with,class,try,except,raise,lambda,yield,global,nonlocal,assert,del},
+  sensitive=true,
+  morecomment=[l]\#,
+  morestring=[s]{'}{'}, % single quotes
+  morestring=[s]{"}{"}, % double quotes
+}
+\newcommand{\matlab}[1]{\lstinline[language=MATLAB]!#1!}
+\newcommand{\python}[1]{\lstinline[language=Python]!#1!}
+
+% ---------- TODOS / COLLAB TOOLS ----------
+\setlength{\marginparwidth}{2cm}
+\makeatletter
+\@ifpackageloaded{todonotes}{}{%
+  \ifieeemode
+    \usepackage[disable]{todonotes}
+  \else
+    \usepackage[colorinlistoftodos,prependcaption,textsize=footnotesize]{todonotes}
+  \fi
+}
+\makeatother
+\newcommand{\owner}[1]{\textbf{Owner: #1}}
+
+% ---------- NICE BOXES ----------
+\usepackage{tcolorbox}
+\tcbset{colback=white, colframe=MidnightBlue!50, arc=2mm}
+
+% ---------- PGFPLOTS / TIKZ ----------
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,positioning}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+% ---------- BIBLIOGRAPHY ----------
+% Using BibTeX via \bibliographystyle + \bibliography in main.tex.
+% (If you later move to biblatex, configure it here.)

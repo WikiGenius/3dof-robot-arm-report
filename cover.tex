@@ -1,0 +1,48 @@
+%================== cover.tex ==================
+\begin{titlepage}
+  \centering
+
+  % University
+  {\Large \textbf{\University}\par}
+  \vspace{0.8em}
+
+  % Title
+  {\huge\bfseries \ReportTitle \par}
+  \vspace{0.6em}
+
+  % Course / Document line
+  {\large \CourseLine \par}
+  \vspace{1.2em}
+
+  % Authors (you first)
+  {\large
+  \textbf{Team Members}\par
+  \vspace{0.4em}
+  \begin{tabular}{rl}
+    \textbf{1.} & \AuthorA \\
+    \textbf{2.} & \AuthorB \\
+    \textbf{3.} & \AuthorC
+  \end{tabular}\par}
+  \vspace{1.2em}
+
+  % Department / Location
+  {\large \Department\par}
+  {\large \Location\par}
+  \vspace{0.8em}
+
+  % Emails
+  % {\normalsize Emails: \Emails \par}
+  \vfill
+
+  % Abstract box
+  \begin{tcolorbox}[colframe=MidnightBlue!50,colback=white,arc=2mm,width=0.9\textwidth]
+    \centering
+    \textbf{Abstract}\\[0.5em]
+    This report presents the nonlinear modeling, control design, and simulation analysis
+    of a three-degree-of-freedom (3-DOF) robotic arm. We detail kinematics, dynamics,
+    and multiple control strategies, and validate through numerical experiments.
+  \end{tcolorbox}
+
+  \vspace{1.0em}
+  {\large \today\par}
+\end{titlepage}
